@@ -1,0 +1,63 @@
+{
+    "app-id": "org.kspckan.Ckan",
+    "runtime": "org.gnome.Platform",
+    "runtime-version": "3.28",
+    "sdk": "org.gnome.Sdk",
+    "command": "ckan.sh",
+    "finish-args": [
+   	"--socket=x11",
+   	"--share=network"
+    ],
+    "modules": [
+	{
+            "name": "wget",
+            "buildsystem": "autotools",
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://ftp.gnu.org/gnu/wget/wget-1.19.5.tar.gz",
+                    "sha256": "b39212abe1a73f2b28f4c6cb223c738559caac91d6e416a6d91d4b9d55c9faee"
+                }
+            ]
+	},
+	{
+            "name": "mono",
+	    "buildsystem": "autotools",
+	    "make-args": "get-monolite-latest",
+	    "config-opts": ["--disable-boehm"],
+            "no-parallel-make": "true",
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://download.mono-project.com/sources/mono/mono-5.14.0.177.tar.bz2",
+                    "sha256": "d4f5fa2e8188d66fbc8054f4145711e45c1faa6d070e63600efab93d1d189498"
+                }
+            ],
+            "post-install": [
+                "cert-sync /etc/ssl/certs/ca-certificates.crt"
+            ]
+	},
+        {
+            "name": "ckan",
+            "buildsystem": "simple",
+            "build-commands": [
+		"install -D ckan.sh /app/bin/ckan.sh",
+		"install ckan.exe /app/bin/ckan.exe"
+            ],
+            "sources": [
+                {
+                    "type": "file",
+		    "url": "https://github.com/KSP-CKAN/CKAN/releases/download/v1.25.3/ckan.exe",
+		    "sha256": "7c33293809f5d04028053ae405fb7b328d161e2855eeb95fe2f6e66570727575"
+                },
+		{
+		    "type": "script",
+		    "commands": [
+		    	"mono /app/bin/ckan.exe"
+		    ],
+		    "dest-filename": "ckan.sh"
+		}
+            ]
+        }
+    ]
+}
