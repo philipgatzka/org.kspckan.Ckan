@@ -6,7 +6,17 @@
     "command": "ckan.sh",
     "finish-args": [
    	"--socket=x11",
-   	"--share=network"
+   	"--share=network",
+	"--filesystem=home",
+    ],
+    "cleanup": [
+    	"/include",
+	"/man",
+	"/share/man",
+	"/share/aclocal",
+	"/share/gtk-doc",
+	"*.la",
+	"*.a"
     ],
     "modules": [
 	{
