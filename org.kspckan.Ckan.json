@@ -21,6 +21,16 @@
             ]
 	},
 	{
+            "name": "libgdiplus",
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "git://github.com/mono/libgdiplus.git",
+                    "branch": "5.6"
+                }
+            ]
+	},
+	{
             "name": "mono",
 	    "buildsystem": "autotools",
 	    "make-args": "get-monolite-latest",
