@@ -1,8 +1,8 @@
 {
   "app-id": "org.kspckan.Ckan",
-  "runtime": "org.gnome.Platform",
-  "runtime-version": "3.28",
-  "sdk": "org.gnome.Sdk",
+  "runtime": "org.freedesktop.Platform",
+  "runtime-version": "1.6",
+  "sdk": "org.freedesktop.Sdk",
   "command": "ckan.sh",
   "finish-args": [
     "--socket=x11",
