@@ -14,22 +14,9 @@
     "/man",
     "/share/man",
     "/share/aclocal",
-    "/share/gtk-doc",
-    "*.la",
-    "*.a"
+    "/share/gtk-doc"
   ],
   "modules": [
-    {
-      "name": "wget",
-      "buildsystem": "autotools",
-      "sources": [
-        {
-          "type": "archive",
-          "url": "https://ftp.gnu.org/gnu/wget/wget-1.19.5.tar.gz",
-          "sha256": "b39212abe1a73f2b28f4c6cb223c738559caac91d6e416a6d91d4b9d55c9faee"
-        }
-      ]
-    },
     {
       "name": "libgdiplus",
       "sources": [
@@ -44,10 +31,6 @@
       "name": "mono",
       "buildsystem": "autotools",
       "make-args": "get-monolite-latest",
-      "config-opts": [
-        "--disable-boehm"
-      ],
-      "no-parallel-make": "true",
       "sources": [
         {
           "type": "archive",
