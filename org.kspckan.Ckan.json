@@ -1,13 +1,16 @@
 {
   "app-id": "org.kspckan.Ckan",
   "runtime": "org.freedesktop.Platform",
-  "runtime-version": "1.6",
+  "runtime-version": "18.08",
   "sdk": "org.freedesktop.Sdk",
   "command": "ckan.sh",
   "finish-args": [
-    "--socket=x11",
+    "--socket=fallback-x11",
     "--share=network",
-    "--filesystem=home"
+    "--share=ipc",
+    "--filesystem=home",
+    "--filesystem=~/.var/app/com.valvesoftware.Steam/data/Steam/steamapps/common/Kerbal\ Space\ Program:create"
+    "--persist=.mono"
   ],
   "cleanup": [
     "/include",
@@ -16,6 +19,7 @@
     "/share/aclocal",
     "/share/gtk-doc"
   ],
+  "writable-sdk": true,
   "modules": [
     {
       "name": "libgdiplus",
@@ -31,15 +35,30 @@
       "name": "mono",
       "buildsystem": "autotools",
       "make-args": "get-monolite-latest",
+      "build-args": [
+        "--share=network"
+      ],
       "sources": [
         {
           "type": "archive",
           "url": "https://download.mono-project.com/sources/mono/mono-5.14.0.177.tar.bz2",
           "sha256": "d4f5fa2e8188d66fbc8054f4145711e45c1faa6d070e63600efab93d1d189498"
         }
+      ]
+    },
+    {
+      "name": "certsync",
+      "buildsystem": "simple",
+      "build-args": [
+        "--persist=/usr/share/.mono",
+        "--filesystem=/etc/ssl/certs:ro"
       ],
-      "post-install": [
-        "cert-sync /etc/ssl/certs/ca-certificates.crt"
+      "build-commands": [
+        "cert-sync /etc/ssl/certs/ca-certificates.crt",
+        "install -d /app/usr/share/.mono/certs/Trust",
+        "install -d /app/usr/share/.mono/new-certs/Trust",
+        "install -Dm644 /usr/share/.mono/certs/Trust/* /app/usr/share/.mono/certs/Trust",
+        "install -Dm644 /usr/share/.mono/new-certs/Trust/* /app/usr/share/.mono/new-certs/Trust"
       ]
     },
     {
